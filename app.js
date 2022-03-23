@@ -20,7 +20,7 @@ const httpServer = createServer(app)
 const INDEX = '/index.html';
 const server = express()
   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  .listen(port, () => console.log(`Listening on ${port}`));
+  .listen(5000, () => console.log(`Listening on 5000`));
 const io = socketIO(server)
 
 let arrUsers = []
