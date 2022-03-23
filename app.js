@@ -14,15 +14,36 @@ app.use(cors()); //memfilter akses. jika dalam kurung kosong, semua bisa masuk
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const {createServer} = require('http')
-const {Server, Socket}  = require('socket.io')
-const httpServer = createServer(app)
 
-const io =new Server (httpServer, {
-  cors: {
-    origin: '*'
-  }
-})
+
+
+app.use('/', router)
+//test
+
+
+app.use(errorHandler);
+
+
+// app.listen(port, () => {
+//   console.log(`Listening to port ${port}!`);
+// });
+
+const INDEX = '/index.html';
+
+const server = app.listen(port, () => console.log(`Listening on ${port}`));
+  // .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  // .listen(port, () => console.log(`Listening on ${port}`));
+
+  const io = socketIO(server);
+// const {createServer} = require('http')
+// const {Server, Socket}  = require('socket.io')
+// const httpServer = createServer(app)
+
+// const io =new Server (httpServer, {
+//   cors: {
+//     origin: '*'
+//   }
+// })
 
 
 let arrUsers = []
@@ -73,20 +94,8 @@ io.on("connection", (socket) => {
   })
 })
 
-httpServer.listen(5000, ()=> {
-  console.log(`Socket Listening to port 5000`)
-})
-
-
-app.use('/', router)
-//test
-
-
-app.use(errorHandler);
-
-
-app.listen(port, () => {
-  console.log(`Listening to port ${port}!`);
-});
+// httpServer.listen(5000, ()=> {
+//   console.log(`Socket Listening to port 5000`)
+// })
 
 module.exports = app

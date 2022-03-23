@@ -11,8 +11,53 @@ const server = express()
 const io = socketIO(server);
 
 io.on('connection', (socket) => {
-  console.log('Client connected');
-  socket.on('disconnect', () => console.log('Client disconnected'));
+    let arrUsers = []
+    let arrChats = []
+    
+    io.on("connection", (socket) => {
+    
+      console.log("A USER IS CONECTED", socket.id)
+      console.log(socket.rooms, "INI SOCKET ROOMS")
+    
+    
+      socket.on("disconnect", ()=>{
+        console.log("A USER HAS DISCONECTED")
+      })
+    
+      socket.on("customEventFromClient", (payload)=>{
+        console.log("RECEIVE PAYLOAD", payload)
+      })
+    
+      
+    //v-on this$emit
+      socket.emit("customEventFromServer", "FROM SERVER")
+    
+      socket.on("setUsername", (payload) => {
+        arrUsers.push({
+          username: payload,
+          status: "online"
+        })
+        console.log(arrUsers, " INI ARR USERS")
+      })
+    
+      
+    
+      socket.on("sendMessageToServer", (payload) => {
+        if(payload.message) {
+          arrChats.push(payload)
+        }
+        
+        socket.join(payload.room);
+        console.log(arrChats, " INI ARR CHATS")
+        const filtered = arrChats.filter(el => {
+          return el.room == payload.room
+        })
+        io.to(payload.room).emit("messagesFromServer", filtered)
+        
+        
+        
+      })
+    })
 });
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
