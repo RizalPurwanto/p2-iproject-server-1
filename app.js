@@ -28,9 +28,9 @@ app.use(errorHandler);
 //   console.log(`Listening to port ${port}!`);
 // });
 
-const INDEX = '/index.html';
 
-const server = app.use(cors()).listen(port, () => console.log(`Listening on ${port}`));
+
+const server = app.use.listen(port, () => console.log(`Listening on ${port}`));
   // .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
   // .listen(port, () => console.log(`Listening on ${port}`));
 
