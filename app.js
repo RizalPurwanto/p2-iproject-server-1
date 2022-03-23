@@ -13,6 +13,67 @@ app.use(cors()); //memfilter akses. jika dalam kurung kosong, semua bisa masuk
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+const {createServer} = require('http')
+const {Server, Socket}  = require('socket.io')
+const httpServer = createServer(app)
+const io =new Server (httpServer, {
+  cors: {
+    origin: '*'
+  }
+})
+
+let arrUsers = []
+let arrChats = []
+
+io.on("connection", (socket) => {
+
+  console.log("A USER IS CONECTED", socket.id)
+  console.log(socket.rooms, "INI SOCKET ROOMS")
+
+
+  socket.on("disconnect", ()=>{
+    console.log("A USER HAS DISCONECTED")
+  })
+
+  socket.on("customEventFromClient", (payload)=>{
+    console.log("RECEIVE PAYLOAD", payload)
+  })
+
+  
+//v-on this$emit
+  socket.emit("customEventFromServer", "FROM SERVER")
+
+  socket.on("setUsername", (payload) => {
+    arrUsers.push({
+      username: payload,
+      status: "online"
+    })
+    console.log(arrUsers, " INI ARR USERS")
+  })
+
+  
+
+  socket.on("sendMessageToServer", (payload) => {
+    if(payload.message) {
+      arrChats.push(payload)
+    }
+    
+    socket.join(payload.room);
+    console.log(arrChats, " INI ARR CHATS")
+    const filtered = arrChats.filter(el => {
+      return el.room == payload.room
+    })
+    io.to(payload.room).emit("messagesFromServer", filtered)
+    
+    
+    
+  })
+})
+
+httpServer.listen(5000, ()=> {
+  console.log(`Socket Listening to port 5000`)
+})
+
 
 app.use('/', router)
 //test

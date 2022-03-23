@@ -16,7 +16,7 @@ const api = "https://api.exchangerate-api.com/v4/latest/USD";
           
           let priceIdrFormat = formatter.format(roundedPrice)
           //console.log(priceIdrFormat)
-          return priceIdrFormat
+          return roundedPrice
      } catch (error) {
         console.log(err)
      }

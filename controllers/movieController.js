@@ -32,15 +32,21 @@ class Controller {
                 movieTitle = title
             }
 
-            const response = await imdb.get(`/AdvancedSearch/${IMDB_KEY}?title_type=feature&release_date=1960-12-01,2022-03-18&countries=us&genres=${genre}&title=${movieTitle}&sort=boxoffice_gross_us,desc&count=1000`)
+            const response = await imdb.get(`/AdvancedSearch/${IMDB_KEY}?title_type=feature&release_date=1960-12-01,2022-03-18&countries=us&genres=${genre}&title=${movieTitle}&sort=boxoffice_gross_us,desc&count=100`)
             const searchMovie = response.data
 
             let startArray = 0 + ((startpage - 1) * 10)
             let endArray = startArray + 10
             console.log(startArray, endArray)
             const sliced = searchMovie.results.slice(startArray, endArray)
-            console.log(sliced, "INI HASIL SEARCH")
-            res.status(200).json(sliced)
+            //console.log(sliced, "INI HASIL SEARCH")
+            const totalPages = Math.ceil(response.data.results.length/10)
+            console.log(response.data.results.length, "TOTAL MOVIE SEARCH")
+            res.status(200).json({
+                totalPages: totalPages,
+                page: page,
+                results: sliced
+            })
         } catch (error) {
             console.log(error)
             next(error)

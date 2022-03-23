@@ -8,7 +8,8 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3",
     "sequelize": "^6.17.0",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "socket.io": "^4.4.1"
   },
   "name": "p2-iproject-server-1",
   "description": "Individual Project - Server",

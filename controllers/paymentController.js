@@ -1,10 +1,45 @@
 const midTrans = require('../apis/midTrans')
+const { User, UserMovie, Genres } = require('../models/index')
+
+async function findPurchased(req, res, next) {
+  try {
+    const {id} = req.loginUser
+    const {imdbId} = req.params
+    const userMovie = await UserMovie.findOne({
+      where: {
+          UserId: id,
+          ImdbId: imdbId
+      }
+    })
+    if (userMovie) {
+     res.status(200).json({purchased: true})
+  } else {
+    res.status(200).json({purchased: false})
+  }
+  } catch (error) {
+    next(error)
+  }
+}
+
 
 async function mtGenerateTransactionToken(req, res, next) {
     try {
-        const {email, username} = req.loginUser
+        const {id} = req.loginUser
         const {imdbId} = req.params
-        const {title, type, price} = req.body
+        const {email, username, title, type, price} = req.body
+        const userMovie = await UserMovie.findOne({
+          where: {
+              UserId: id,
+              ImdbId: imdbId
+          }
+      })
+      if (userMovie) {
+        throw ({
+          code: 400,
+          name: "PURCHASE_DUPLICATE",
+          message: "This Movie has already been purchased"
+      })
+      } 
         const body = {
             "transaction_details": {
               "order_id": `ORDER-102-${new Date().toISOString()}`,
@@ -52,11 +87,12 @@ async function mtGenerateTransactionToken(req, res, next) {
       console.log(data, "INI MIDTRANS TRANSACTION TOKEN")
       res.status(200).json(data)
     } catch (err) {
-      console.log(err.response.data)
+      console.log(err)
       next(err)
     }
   }
 
   module.exports ={ 
-      mtGenerateTransactionToken
+      mtGenerateTransactionToken,
+      findPurchased
   }
