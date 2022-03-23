@@ -17,10 +17,10 @@ app.use(express.urlencoded({ extended: false }));
 const {createServer} = require('http')
 const {Server, Socket}  = require('socket.io')
 const httpServer = createServer(app)
-const INDEX = '/index.html';
+const INDEX = 'https://youflix-fd2cc.web.app/';
 const server = express()
   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  .listen(port, () => console.log(`Listening on ${port}`));
+  .listen(5000, () => console.log(`Listening on ${5000}`));
 const io = socketIO(server)
 
 let arrUsers = []
@@ -83,8 +83,8 @@ app.use('/', router)
 app.use(errorHandler);
 
 
-// app.listen(port, () => {
-//   console.log(`Listening to port ${port}!`);
-// });
+app.listen(port, () => {
+  console.log(`Listening to port ${port}!`);
+});
 
 module.exports = app
