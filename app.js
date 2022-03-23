@@ -1,5 +1,6 @@
 require("dotenv").config(); //tempatkan dotenv paling awal
 //console.log(process.env.PORT);
+const socketIO = require('socket.io');
 const cors = require("cors"); //cors untuk localstorage
 const express = require("express");
 const app = express();
@@ -19,7 +20,7 @@ const httpServer = createServer(app)
 const INDEX = '/index.html';
 const server = express()
   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  .listen(5000, () => console.log(`Listening on ${5000}`));
+  .listen(port, () => console.log(`Listening on ${port}`));
 const io = socketIO(server)
 
 let arrUsers = []
