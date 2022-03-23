@@ -30,7 +30,7 @@ app.use(errorHandler);
 
 
 
-const server = app.use.listen(port, () => console.log(`Listening on ${port}`));
+const server = app.listen(port, () => console.log(`Listening on ${port}`));
   // .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
   // .listen(port, () => console.log(`Listening on ${port}`));
 
