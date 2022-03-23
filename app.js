@@ -16,11 +16,11 @@ app.use(express.urlencoded({ extended: false }));
 const {createServer} = require('http')
 const {Server, Socket}  = require('socket.io')
 const httpServer = createServer(app)
-const io =new Server (httpServer, {
-  cors: {
-    origin: '*'
-  }
-})
+const INDEX = '/index.html';
+const server = express()
+  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .listen(port, () => console.log(`Listening on ${port}`));
+const io = socketIO(server)
 
 let arrUsers = []
 let arrChats = []
@@ -70,9 +70,9 @@ io.on("connection", (socket) => {
   })
 })
 
-httpServer.listen(process.env.PORT||5000, ()=> {
-  console.log(`Socket Listening to port 5000`)
-})
+// httpServer.listen(process.env.PORT||5000, ()=> {
+//   console.log(`Socket Listening to port 5000`)
+// })
 
 
 app.use('/', router)
