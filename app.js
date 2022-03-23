@@ -20,7 +20,7 @@ const httpServer = createServer(app)
 const INDEX = '/index.html';
 const server = express()
   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  .listen(5000, () => console.log(`Listening on 5000`));
+  .listen(port, () => console.log(`Listening on ${port}`));
 const io = socketIO(server)
 
 let arrUsers = []
@@ -83,8 +83,8 @@ app.use('/', router)
 app.use(errorHandler);
 
 
-app.listen(port, () => {
-  console.log(`Listening to port ${port}!`);
-});
+// app.listen(port, () => {
+//   console.log(`Listening to port ${port}!`);
+// });
 
 module.exports = app
