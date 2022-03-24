@@ -38,7 +38,8 @@ async function searchMovie(page, title, genre) {
         let endArray = startArray + 10
         console.log(startArray, endArray)
         const sliced = searchMovie.results.slice(startArray, endArray)
-        console.log(sliced, "INI HASIL SEARCH")
+        //console.log(sliced, "INI HASIL SEARCH")
+        console.log()
     } catch (error) {
         console.log(error)
     }

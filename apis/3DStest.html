@@ -24,13 +24,13 @@
       // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
       const token =  mtGenerateTransactionToken()
       console.log(token)
-      // window.snap.pay('592c20a2-7017-497c-8823-127ec9935aec', {
-      //   onSuccess: function (result) { console.log('success'); console.log(result); },
-      //   onPending: function (result) { console.log('pending'); console.log(result); },
-      //   onError: function (result) { console.log('error'); console.log(result); },
-      //   onClose: function () { console.log('customer closed the popup without finishing the payment'); }
-      // });
-      // // customer will be redirected after completing payment pop-up
+      window.snap.pay('592c20a2-7017-497c-8823-127ec9935aec', {
+        onSuccess: function (result) { console.log('success'); console.log(result); },
+        onPending: function (result) { console.log('pending'); console.log(result); },
+        onError: function (result) { console.log('error'); console.log(result); },
+        onClose: function () { console.log('customer closed the popup without finishing the payment'); }
+      });
+      // customer will be redirected after completing payment pop-up
     });
   </script>
 
