@@ -121,6 +121,46 @@ class Controller {
             next(error)
         }
     }
+
+    static async getMyMovie(req, res, next) {
+        try {
+            const { imdbId } = req.params
+            const { id, username } = req.loginUser
+
+            const myMovie = await UserMovie.findOne({
+                where: { 
+                    UserId: id ,
+                    ImdbId: imdbId
+                },
+                include: [
+                    {
+                        model: User,
+                        as: "User",
+                        attributes: {
+                            exclude: ["password"]
+                        }
+                    },
+
+                ],
+                attributes: {
+                    exclude: ["createdAt", "updatedAt"]
+                }
+            })
+            if(!myMovie) {
+                throw ({
+                    code: 404,
+                    name: "NOT_FOUND",
+                    message: "Movie not found"
+                })
+            }
+            
+            res.status(200).json(myMovie)
+        } catch (error) {
+            console.log(error, "INI ERROR")
+            next(error)
+        }
+    }
+
     static async getPurchased(req, res, next) {
         try {
             const { id, username } = req.loginUser

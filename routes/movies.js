@@ -10,7 +10,8 @@ router.get('/:imdbId', Controller.getMovieDetails)
 router.get('/price/:imdbId', Controller.getMoviePricesAndTrailer)
 
 router.get('/purchased/all', Controller.getPurchased)
+router.get('/purchased/:imdbId', authorization, Controller.getMyMovie)
 router.post('/purchased/:imdbId', Controller.addToPurchased)
-router.get('/purchased/:imdbId', authorization, Controller.getMoviePricesAndTrailer)
+
 
 module.exports = router
