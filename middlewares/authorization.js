@@ -1,5 +1,5 @@
 
-const {UserNews} = require('../models/index.js')
+const {UserMovie} = require('../models/index.js')
 const authorization = async (req, res, next) => {//authorization
     //bila author berbeda dengan login dan author bukan admin, tolak access 
     try {
@@ -11,7 +11,7 @@ const authorization = async (req, res, next) => {//authorization
         console.log(idMovie, " INI  MOVIE ID")
         console.log(userLoginId, " INI  USER ID")
         
-        const purchased = await UserNews.findOne({
+        const purchased = await UserMovie.findOne({
             where : {
                 UserId : userLoginId,
                 ImdbId: idMovie 
@@ -27,6 +27,7 @@ const authorization = async (req, res, next) => {//authorization
         }
         next()
     } catch (err) {
+        console.log(err)
         next(err)
     }
 }
