@@ -31,23 +31,14 @@ app.use(errorHandler);
 
 
 const server = app.listen(port, () => console.log(`Listening on ${port}`));
-  // .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  // .listen(port, () => console.log(`Listening on ${port}`));
+  
 
   const io = socketIO(server, {
     cors: {
           origin: '*'
         }
   });
-// const {createServer} = require('http')
-// const {Server, Socket}  = require('socket.io')
-// const httpServer = createServer(app)
 
-// const io =new Server (httpServer, {
-//   cors: {
-//     origin: '*'
-//   }
-// })
 
 
 let arrUsers = []
