@@ -19,6 +19,7 @@ async function register(req, res, next) {
 
 async function login(req, res, next) {
     try {
+        
         console.log(process.env.DATABASE_URL)
         const {email, password} = req.body
         if(!email || !password) {
